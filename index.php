@@ -15,9 +15,17 @@
 			$dataError=unserialize($_GET["error"]);
 		}
 
+/*
+		echo "<pre>";
+		var_dump($dataForm);
+		echo "<br />";
+		var_dump($dataError);
+		echo "</pre>";
+*/
+		
 	 ?>
 
-	<form action="proRegistro.php" method="pOST">
+	<form action="proRegistro.php" method="POST">
 		<fieldset>
 			<legend>Registro de Nuevo Usuario</legend>
 			<table>
@@ -59,7 +67,7 @@
 					<td>
 					<input 
 						id="email"
-						type="email" 
+						type="text" 
 						name="email" 
 						value="<?= $dataForm["email"] ?>" 
 						require="true"
@@ -132,7 +140,7 @@
 				</tr>
 
 				<tr>
-					<td colspan="2"><?= "<code style='color: red'>".$dataError["nickError"]."</code>"; ?></td><!--ERRORES-->
+					<td colspan="2"><?= "<code style='color: red'>".$dataError["keyError"]."</code>"; ?></td><!--ERRORES-->
 				</tr>
 				
 				<tr>

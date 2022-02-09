@@ -17,10 +17,7 @@
 		"keyError"=>""
 	];
 
-	function arrayToUrl($array)
-	{
-		return urlencode(	serialize($array)	);
-	}
+
 
 	function verifyString(
 		$campo,
