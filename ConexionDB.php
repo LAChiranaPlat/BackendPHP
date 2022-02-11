@@ -44,7 +44,7 @@
 
 			if($qPrepare->execute())
 			{
-				echo "Registro guardado Correctamente";
+				return true;
 				$qPrepare->close();
 
 			}
@@ -59,10 +59,10 @@
 
 		private function proDataInsert()
 		{
-			$keys="";
-			$values="";
-			$comodin="";
-			$types="";
+			$keys="";		//claves/indices del array
+			$values="";		//valores		del array
+			$comodin="";	//?????????????????????
+			$types="";		//letritas: sisisisisi
 
 			$tipos=[
 				"string"=>"s",
@@ -72,8 +72,7 @@
 			foreach ($this->mCampos as $key => $value) {
 				$keys .= $key.",";
 				$comodin .= "?,";
-				
-				$types .=$tipos[gettype($value)];
+				$types .= $tipos[gettype($value)];
 			}
 
 			$this->strCampos=substr_replace($keys, "", strlen($keys)-1);

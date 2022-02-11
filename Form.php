@@ -20,16 +20,23 @@
 			"keyError"=>""
 		];
 
-		private $sTilde=["a","e","i","o","u","ñ","A","E","I","O","U","Ñ"];
-		private $cTilde=["á","é","í","ó","ú","n","Á","É","Í","Ó","Ú","N"];	
+		private $sTilde=["a","e","i","o","u","n","A","E","I","O","U","N"];
+		private $cTilde=["á","é","í","ó","ú","ñ","Á","É","Í","Ó","Ú","Ñ"];	
 
+		//alexañder
 		function __construct(public $form)//paremetros: PHP8
 		{		
 			$this->campos=count($form);
+
+			echo $this->campos;
+			echo "<br />";
+			var_dump($form);
+			echo "<br />";
+
 		}
 
 
-		function verifyString($campo,$indice)
+		function verifyString($campo,$indice)//name//nameError
 		{
 			$this->camposVerificados++;
 
@@ -44,6 +51,7 @@
 			$boxCampo=explode(" ", $campo);
 			
 			$campo="";
+			$valueTemp="";
 
 			foreach ($boxCampo as $item) {
 
@@ -89,12 +97,13 @@
 		{
 
 
-			if($contexto)
+			if($contexto)//login
 			{
 				$this->camposVerificados++;
 				$key=trim($this->form["key"]);
+				return password_hash(htmlentities(stripslashes($this->form["key"])), PASSWORD_DEFAULT);
 
-			}else{
+			}else{//register
 
 				$this->camposVerificados += 2;
 
@@ -120,7 +129,7 @@
 			}
 		}
 
-		function verifyForm()
+		function verifyForm($file)
 		{
 			if($this->camposVerificados==$this->campos){
 
@@ -131,7 +140,7 @@
 					$dataForm=$this->arrayToUrl($this->form);//VALORES DEL FORMULARIO
 					$dataError=$this->arrayToUrl($this->messageError);//ERRORES DETECTADOS
 
-					header("location:index.php?formData=$dataForm&error=$dataError");
+					header("location:$file?formData=$dataForm&error=$dataError");
 					die("Cierre de la Aplicación");
 
 				}
