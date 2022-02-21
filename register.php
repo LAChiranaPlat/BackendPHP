@@ -16,7 +16,7 @@
 		}
 
 	 ?>
-
+<a href="index.php">Atras</a>
 	<form action="proRegistro.php" method="POST">
 		<fieldset>
 			<legend>Registro de Nuevo Usuario</legend>

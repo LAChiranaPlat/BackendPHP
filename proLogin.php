@@ -16,8 +16,10 @@
 	$frm->dataClear["nick"]= $frm->verifyString($_POST["nick"],"nickError");
 	$frm->dataClear["password"]= $frm->verifyPassword(true);
 	
+	$frm->verifyForm("login.php");
+	
+	$sesionUser=new sessionSecurity("actividades");
 
-	//$frm->verifyForm("register.php");
-
+	$sesionUser->login($frm->dataClear["nick"],$frm->dataClear["password"]);
 
  ?>

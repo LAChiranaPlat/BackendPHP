@@ -3,20 +3,23 @@
 	class ConexionDB
 	{
 
-		public $table;
-		public $mCampos;
+		public $table;//TABLAS
+		public $mCampos;//KEYS(NOMBRES DE LOS CAMPOS EN LAS TABLAS) -> VALORES
 
-		public $strCampos;
-		public $strValues;
+		protected $strCampos;
+		protected $strValues;
 
-		public $conexion;
-		public $strType;
+		protected $conexion;//CONEXION A LA BASE DE DATO
+		protected $strType;
+
+		protected $server="localhost";
+		protected $user="root";
+		protected $key="";
+		protected $db="system22";
 				
-		public function __construct(
-			public $server, public $user, public $key, public $db
-		)
+		function __construct()
 		{
-			$this->conexion=new mysqli($server,$user,$key,$db);
+			$this->conexion=new mysqli($this->server,$this->user,$this->key,$this->db);
 
 			if($this->conexion->connect_errno)
 			{
@@ -24,7 +27,7 @@
 			}
 		}
 
-		public function insert(){
+		protected function insert(){//X
 
 			$this->proDataInsert();
 
@@ -51,13 +54,13 @@
 				
 		}
 
-		public function select(){}
+		protected function select(){}//OK
 
-		public function delete(){}
+		protected function delete(){}
 
-		public function update(){}
+		protected function update(){}
 
-		private function proDataInsert()
+		protected function proDataInsert()
 		{
 			$keys="";		//claves/indices del array
 			$values="";		//valores		del array
@@ -70,11 +73,13 @@
 			];
 
 			foreach ($this->mCampos as $key => $value) {
+
 				$keys .= $key.",";
 				$comodin .= "?,";
 				$types .= $tipos[gettype($value)];
-			}
 
+			}
+			
 			$this->strCampos=substr_replace($keys, "", strlen($keys)-1);
 			$this->values=array_values($this->mCampos);
 			$this->strValues=substr_replace($comodin, "", strlen($comodin)-1);
@@ -82,6 +87,34 @@
 		}
 		
 
+		function prepQuery($query,$dataUser)
+		{
+			$conexion=$this->conexion;
+
+			$tipoData=is_numeric($dataUser)?"i":"s";
+			
+			if(!($qPreparada=$conexion->prepare($query)))//
+			{
+				echo $qPreparada->error;
+				die("Final del script: Error en Preparación de Consulta");
+			}
+			
+			
+			if(!$qPreparada->bind_param($tipoData,$dataUser))
+			{
+				echo $qPreparada->error;
+				die("Final del script: Error en Vinculación de datos");
+			}
+
+			if($qPreparada->execute())
+			{
+				$result=$qPreparada->get_result();
+				//$datos=$result->fetch_assoc();
+
+				return $result;
+			}
+
+		}
 	
 	}
 

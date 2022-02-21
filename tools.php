@@ -19,77 +19,7 @@
 
 
 
-	function verifyString(
-		$campo,
-		$message, 
-		$indice,
-		&$errores,//PASO POR REFERENCIA
-		&$error,
-		&$verificados)
-	{
-		$verificados++;
 
-		if(empty($campo))
-		{
-			$error[$indice]=$message;
-			$errores["v"]++;
-			return ;
-		}
-
-		$campo=trim($campo);
-
-		$matriz=explode(" ", $campo);//sofia
-		$campo="";
-
-		$sTilde=["a","e","i","o","u","ñ","A","E","I","O","U","Ñ"];
-		$cTilde=["á","é","í","ó","ú","n","Á","É","Í","Ó","Ú","N"];
-
-		foreach ($matriz as $item) {
-
-			$valueTemp=str_replace($cTilde, $sTilde, $item);
-
-			if(!ctype_alpha($valueTemp)){
-				$errores["t"]++;
-				$error[$indice]=$message;
-				return;
-			}
-
-			$campo .= $item." ";
-
-		}
-
-		return htmlentities((trim($campo)));//lo ultimo en la funcion
-
-	}
-
-
-	function verifyEmail(
-		$campo,
-		&$errores,
-		&$error,
-		&$verificados)
-	{
-		$verificados++;
-
-		if(empty($campo))
-		{
-			$error["emailError"]="Debe ingresar un correo electronico";
-			$errores["v"]++;
-			return ;
-		}
-
-		$campo=trim($campo);
-		$email=filter_var($campo,FILTER_SANITIZE_EMAIL);
-
-		if(filter_var($email,FILTER_VALIDATE_EMAIL))
-		{
-			return htmlentities($email);
-		}
-
-		$error["emailError"]="El correo ingresado no es valido";
-		$errores["t"]++;
-
-	}
 
 	function verifyPass(
 		$key,

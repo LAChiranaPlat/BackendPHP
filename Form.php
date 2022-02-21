@@ -11,7 +11,7 @@
 		
 		private $vacios=0;
 		private $errorTipo=0;
-		private $messageError=[
+		public $messageError=[
 			"nameError"=>"",
 			"lnameError"=>"",
 			"nickError"=>"",
@@ -28,27 +28,22 @@
 		{		
 			$this->campos=count($form);
 
-			echo $this->campos;
-			echo "<br />";
-			var_dump($form);
-			echo "<br />";
-
 		}
 
 
-		function verifyString($campo,$indice)//name//nameError
+		function verifyString($x,$indice)//LETRAS aZ
 		{
 			$this->camposVerificados++;
 
-			if(empty($campo))
+			if(empty($x))
 			{
-				$this->messageError[$indice]="Debe llenar el Campo";//mensajes Vacios
+				$this->messageError[$indice]="Debe llenar el x";//mensajes Vacios
 				$this->vacios++;
 				return ;
 			}
 
-			$campo=trim($campo);
-			$boxCampo=explode(" ", $campo);
+			$x=trim($x);
+			$boxCampo=explode(" ", $x);
 			
 			$campo="";
 			$valueTemp="";
@@ -101,7 +96,7 @@
 			{
 				$this->camposVerificados++;
 				$key=trim($this->form["key"]);
-				return password_hash(htmlentities(stripslashes($this->form["key"])), PASSWORD_DEFAULT);
+				return htmlentities(stripslashes($this->form["key"]));//change
 
 			}else{//register
 
@@ -131,6 +126,7 @@
 
 		function verifyForm($file)
 		{
+
 			if($this->camposVerificados==$this->campos){
 
 				if($this->vacios || $this->errorTipo)
@@ -143,13 +139,27 @@
 					header("location:$file?formData=$dataForm&error=$dataError");
 					die("Cierre de la Aplicación");
 
-				}
+				}				
+
 
 			}else{
 				echo $this->camposVerificados, " / ",$this->campos;
 				echo "Falta verificar campos";
 
 			}
+
+
+		}
+
+		function returnNickError($file)
+		{
+			$this->messageError["nickError"]="La Cuenta de usuario ya existe";
+
+			$dataForm=$this->arrayToUrl($this->form);//VALORES DEL FORMULARIO
+			$dataError=$this->arrayToUrl($this->messageError);//ERRORES DETECTADOS
+
+			header("location:$file?formData=$dataForm&error=$dataError");
+			die("Cierre de la Aplicación");
 
 		}
 

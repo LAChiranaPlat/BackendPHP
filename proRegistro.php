@@ -13,7 +13,6 @@
 
 	$frm=new Form($_POST);
 
-
 	$frm->dataClear["nombres"]= $frm->verifyString($_POST["name"],"nameError");
 	$frm->dataClear["apellidos"]= $frm->verifyString($_POST["lname"],"lnameError");
 	$frm->dataClear["sexo"]= $frm->verifyString($_POST["sexo"],"sexoError");
@@ -22,14 +21,18 @@
 	$frm->dataClear["nick"]= $frm->verifyString($_POST["nick"],"nickError");
 	
 	$frm->verifyForm("register.php");
+//ok=		vacios=0/erroresTipo=0/verificado todo
 
-	$newRegistro=new ConexionDB("localhost","root","","system22");
+	$newRegistro=new Usuarios("localhost","root","","system22");
 	$newRegistro->table="users";
 	$newRegistro->mCampos=$frm->dataClear;
 	
-	if($newRegistro->insert()){
+	if($newRegistro->save()){
 		header("location:system.php");
 		die("Fin del Script");
 	}
+	
+	$frm->returnNickError("register.php");
+	
 
  ?>
