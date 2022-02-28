@@ -7,9 +7,7 @@
 		die("Sistema Fuera de Linea");//FINALIZO APP
 	}
 
-	spl_autoload_register(function ($x) {
-	    include $x . '.php';
-	});
+	include "myClass.php";
 
 	$frm=new Form($_POST);
 
@@ -28,8 +26,13 @@
 	$newRegistro->mCampos=$frm->dataClear;
 	
 	if($newRegistro->save()){
-		header("location:system.php");
-		die("Fin del Script");
+
+		$sesionUser=new sessionSecurity("actividades");
+		$sesionUser->initSession(
+									$frm->dataClear["nick"],
+									$newRegistro->getId($frm->dataClear["nick"])
+								);
+
 	}
 	
 	$frm->returnNickError("register.php");

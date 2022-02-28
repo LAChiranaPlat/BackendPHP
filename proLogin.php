@@ -6,9 +6,7 @@
 			die("Sistema Fuera de Linea");//FINALIZO APP
 		}
 
-	spl_autoload_register(function ($x) {
-	    include $x . '.php';
-	});
+	include "myClass.php";
 
 	$frm=new Form($_POST);
 

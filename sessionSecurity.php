@@ -47,15 +47,14 @@ class sessionSecurity extends ConexionDB
 
 		}
 
-
 	}
 
 	public function initSession($nick,$idUser)
 	{//JUAN
 
-		$_SESSION['user']=$nick;
+		$_SESSION['user']=$nick;//elgerrero/hackerman//devPHP
 
-		$_SESSION['idUser']=$idUser;
+		$_SESSION['idUser']=$idUser;//codigo:50 100 1000000
 		
 		$_SESSION['status']=1;
 		$_SESSION['token']=md5(uniqid(rand(),true));
@@ -77,7 +76,33 @@ class sessionSecurity extends ConexionDB
 
 	public function verifySession()
 	{
-		if(isset($_SESSION["user"]) and !empty($_SESSION['users']))
+		if(isset($_SESSION["user"]) and !empty($_SESSION['user']))//ok
+		{
+			//VICTOR
+			$conexDB=$this->conexion;
+			$query="select token, status from actividades where idUser=? and status=1";
+	
+			$data=$this->prepQuery($query,$_SESSION["idUser"]);
+			
+			$info=$data->fetch_assoc();
+				/*1234*/				/**/
+			if( $_SESSION['token'] != $info["token"])
+			{
+				header("Location:error.php");
+				die();
+			}
+			
+		}else{
+
+			header("Location:error.php");
+
+		}
+	}
+
+
+	function verifyIniSession()
+	{
+		if(isset($_SESSION["user"]) and !empty($_SESSION['user']))//ok
 		{
 			//VICTOR
 			$conexDB=$this->conexion;
@@ -89,18 +114,17 @@ class sessionSecurity extends ConexionDB
 
 			if( $_SESSION['token'] == $info["token"])
 			{
-				//ingreso al sistema
+				header("Location:system.php");
+				die();
 			}else{
 				header("Location:error.php");
 				die();
 			}
-
-		}else{
-
-			header("Location:error.php");
-
+			
 		}
+
 	}
+
 
 /**/
 	function closeSession()

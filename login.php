@@ -6,6 +6,11 @@
 <body>
 
 <?php 
+	include "myClase.php";
+
+	$seguridad=new sessionSecurity();
+	$seguridad->verifyIniSession();
+
 
 		require "tools.php";
 

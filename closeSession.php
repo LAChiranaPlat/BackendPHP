@@ -1,7 +1,6 @@
 <?php 
 
-	include "conexionDB.php";
-	include "sessionSecurity.php";
+	include "myClass.php";
 
 	$objSession=new sessionSecurity();
 	$objSession->closeSession();
