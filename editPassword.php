@@ -9,9 +9,10 @@
 	
 	include "myClass.php";
 	$nUser=new Usuarios();
+	$seguridad=new sessionSecurity();
 	
 	
-	extract($nUser->getDataUser(111));
+	extract($nUser->getDataUser($_SESSION['idUser']));
 	
 
  ?>
@@ -21,19 +22,18 @@
 			<legend>Datos Personales</legend>
 
 
+			<form action="proEditPassword.php" method="post">
 			<table>
 				<tr>
-					<td>Nombres</td>
-					<td><input type="text" name="names" value="<?= $nombres; ?>" /></td>
+					<td>Password Actual</td>
+					<td><input type="text" name="key" /></td>
 				</tr>
 				<tr>
-					<td>Apellidos</td>
-					<td><input type="text" name="names" value="<?= $apellidos; ?>" /></td>
+					<td>Nueva Password</td>
+					<td><input type="text" name="nKey" /></td>
 				</tr>
 			</table>
-			<form action="edit.php">
-				<input type="hidden" name="idUser" value="id" />
-				<button type="submit">Actualizar</button>
+				<button type="submit">Cambiar</button>
 			</form>
 			
 		</fieldset>

@@ -13,7 +13,6 @@
 	
 	extract($nUser->getDataUser($_SESSION['idUser']));
 	
-
  ?>
 
 	<div class="personal">
@@ -63,6 +62,13 @@
 					<tr>
 						<td>Contraseña de Cuenta</td>
 						<td>***</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<form action="editPassword.php">
+								<button type="submit">Cambiar</button>
+							</form>
+						</td>
 					</tr>
 				</table>
 				

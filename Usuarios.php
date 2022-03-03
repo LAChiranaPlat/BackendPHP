@@ -149,6 +149,33 @@
 
 		}
 
+		function upPassUser($nKey)
+		{
+			
+			$conexion=$this->conexion;
+
+			$qUpdate="update users set password=? where id=?";
+
+			if(!($sentencia=$conexion->prepare($qUpdate)))
+			{
+				echo "Error: ",$conexion->error;
+				die("Error en la preparación de la consulta");
+			}
+
+			if(!$sentencia->bind_param("si", $nKey , $_SESSION['idUser']))//juancito
+			{
+				echo "Error: ",$sentencia->error;
+				die("Error en la vinculación de datos");	
+			}
+
+			if($sentencia->execute())
+			{
+				return true;
+			}else{
+			}
+
+		}
+
 	}
 
  ?>

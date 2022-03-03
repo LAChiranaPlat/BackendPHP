@@ -6,7 +6,8 @@
 <body>
 
 <?php 
-	include "myClase.php";
+
+	include "myClass.php";
 
 	$seguridad=new sessionSecurity();
 	$seguridad->verifyIniSession();
