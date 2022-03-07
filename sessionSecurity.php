@@ -22,7 +22,7 @@ class sessionSecurity extends ConexionDB
 	public function login($nick,$password)//juancito-1234
 	{
 		$conex=$this->conexion;
-		$query="select id, password from users where nick=?";//tadeo
+		$query="select id,type, password from users where nick=?";//tadeo
 
 		$data=$this->prepQuery($query,$nick);
 
@@ -32,7 +32,7 @@ class sessionSecurity extends ConexionDB
 
 			if(password_verify($password, $info["password"]))
 			{
-				$this->initSession($nick,$info["id"]);
+				$this->initSession($nick,$info["id"],$info["type"]);
 				die();
 			}
 
@@ -49,13 +49,11 @@ class sessionSecurity extends ConexionDB
 
 	}
 
-	public function initSession($nick,$idUser)
+	public function initSession($nick,$idUser,$typeUser=0)
 	{//JUAN
 
 		$_SESSION['user']=$nick;//elgerrero/hackerman//devPHP
-
 		$_SESSION['idUser']=$idUser;//codigo:50 100 1000000
-		
 		$_SESSION['status']=1;
 		$_SESSION['token']=md5(uniqid(rand(),true));
 
@@ -69,7 +67,11 @@ class sessionSecurity extends ConexionDB
 		
 		$this->save();
 
-		header("location:system.php");
+		if($typeUser){
+			header("location:systemAdmin.php");//cantidada de usuarios//lista de usuarios//historial de actividades por usuario
+		}else{
+			header("location:system.php");
+		}
 		die("Session Iniciada");
 
 	}

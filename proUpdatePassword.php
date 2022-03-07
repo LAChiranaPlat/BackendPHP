@@ -12,7 +12,7 @@
 
 		$key=password_hash(htmlentities(stripslashes($_SESSION['newPass'])), PASSWORD_DEFAULT);
 
-		if($user->upPassUser($key))
+		if($user->upPassUser($key,$_SESSION["idUser"]))
 		{
 			unset($_SESSION["codVerify"]);
 			unset($_SESSION["newPass"]);

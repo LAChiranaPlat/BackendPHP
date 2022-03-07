@@ -87,32 +87,53 @@
 		}
 		
 
-		function prepQuery($query,$dataUser)
+		function prepQuery($query,...$dataUser)
 		{
 			$conexion=$this->conexion;
-
-			$tipoData=is_numeric($dataUser)?"i":"s";
+			
 			
 			if(!($qPreparada=$conexion->prepare($query)))//
 			{
 				echo $qPreparada->error;
 				die("Final del script: Error en Preparación de Consulta");
 			}
+			//OK
+
+			$types="";
+
+			if(gettype($dataUser)=="array"){
+
+				foreach ($dataUser as $key => $value) {
+
+					$types .= is_numeric($value)?"i":"s";
+
+				}
+
+				if(!$qPreparada->bind_param($types,...$dataUser))
+				{
+					echo $qPreparada->error;
+					die("Final del script: Error en Vinculación de datos");
+				}//VARIA
+
+			}else{
 			
+				$tipoData=is_numeric($dataUser)?"i":"s";//VARIA SEGUN LOS DATOS
+
+				if(!$qPreparada->bind_param($tipoData,$dataUser))
+				{
+					echo $qPreparada->error;
+					die("Final del script: Error en Vinculación de datos");
+				}//VARIA
 			
-			if(!$qPreparada->bind_param($tipoData,$dataUser))
-			{
-				echo $qPreparada->error;
-				die("Final del script: Error en Vinculación de datos");
 			}
+
 
 			if($qPreparada->execute())
 			{
 				$result=$qPreparada->get_result();
-				//$datos=$result->fetch_assoc();
 
 				return $result;
-			}
+			}//OK
 
 		}
 	

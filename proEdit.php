@@ -8,7 +8,7 @@
 	extract($_POST);
 
 
-	if($user->upUser($name,$lname))
+	if($user->upUser($name,$lname,$_SESSION["idUser"]))
 	{
 		header("location:system.php");
 		die();

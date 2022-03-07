@@ -23,20 +23,14 @@
 		public function verifyUser()
 		{
 
-			$conexion=$this->conexion;
-
 			$query="SELECT nombres, apellidos FROM users where nick=?";//limpia=sql, 
 			$result=$this->prepQuery($query,$this->mCampos['nick']);
 			return $result->num_rows;//true
 				
-					
-			
-
 		}
 
-		function getData($campoRequerido,$id)
+		function getData($campoRequerido,$id)//type,idUser
 		{
-			$conexion=$this->conexion;
 
 			$query="SELECT $campoRequerido FROM users where id=?";
 			$result=$this->prepQuery($query,$id);
@@ -48,7 +42,6 @@
 
 		function getDataUser($id)
 		{
-			$conexion=$this->conexion;
 
 			$query="SELECT nombres,apellidos, email,sexo,fRegistro, fotoPerfil FROM users where id=?";
 			$result=$this->prepQuery($query,$id);
@@ -58,7 +51,7 @@
 
 		function getId($user)
 		{
-			$conexion=$this->conexion;
+			
 
 			$query="SELECT id FROM users where nick=?";
 			$result=$this->prepQuery($query,$user);
@@ -66,113 +59,49 @@
 			return $datos['id'];	
 		}
 
-		function upFPerfil($fotoPerfil)
+		function upFPerfil(...$data)
 		{
 			
-			$conexion=$this->conexion;
-
-			$qUpdate="update users set fotoPerfil=? where id=?";
-
-			if(!($sentencia=$conexion->prepare($qUpdate)))
-			{
-				echo "Error: ",$conexion->error;
-				die("Error en la preparación de la consulta");
-			}
-
-			if(!$sentencia->bind_param("si", $fotoPerfil , $_SESSION['idUser']))//juancito
-			{
-				echo "Error: ",$sentencia->error;
-				die("Error en la vinculación de datos");	
-			}
-
-			if($sentencia->execute())
-			{
-				var_dump($sentencia->get_result());
-				return true;
-			}else{
-			}
+			$qUpdate="update users set fotoPerfil=? where id=?";//CONSULTA
+			$result=$this->prepQuery($qUpdate,...$data);
+			return true;
 
 		}
 
-		function upUser($name,$lname)
+		function upUser(...$data)
 		{
-			
-			$conexion=$this->conexion;
 
 			$qUpdate="update users set nombres=?, apellidos=? where id=?";
-
-			if(!($sentencia=$conexion->prepare($qUpdate)))
-			{
-				echo "Error: ",$conexion->error;
-				die("Error en la preparación de la consulta");
-			}
-
-			if(!$sentencia->bind_param("ssi", $name,$lname , $_SESSION['idUser']))//juancito
-			{
-				echo "Error: ",$sentencia->error;
-				die("Error en la vinculación de datos");	
-			}
-
-			if($sentencia->execute())
-			{
-				return true;
-			}else{
-			}
+			$result=$this->prepQuery($qUpdate,...$data);
+			return true;
 
 		}
 
 
-		function upMailUser($mail)
+		function upMailUser(...$data)
 		{
 			
-			$conexion=$this->conexion;
-
 			$qUpdate="update users set email=? where id=?";
-
-			if(!($sentencia=$conexion->prepare($qUpdate)))
-			{
-				echo "Error: ",$conexion->error;
-				die("Error en la preparación de la consulta");
-			}
-
-			if(!$sentencia->bind_param("si", $mail , $_SESSION['idUser']))//juancito
-			{
-				echo "Error: ",$sentencia->error;
-				die("Error en la vinculación de datos");	
-			}
-
-			if($sentencia->execute())
-			{
-				return true;
-			}else{
-			}
+			$result=$this->prepQuery($qUpdate,...$data);
+			return true;
+			
 
 		}
 
-		function upPassUser($nKey)
+		function upPassUser(...$data)
 		{
 			
-			$conexion=$this->conexion;
-
 			$qUpdate="update users set password=? where id=?";
+			$result=$this->prepQuery($qUpdate,...$data);
+			return true;
 
-			if(!($sentencia=$conexion->prepare($qUpdate)))
-			{
-				echo "Error: ",$conexion->error;
-				die("Error en la preparación de la consulta");
-			}
+		}
 
-			if(!$sentencia->bind_param("si", $nKey , $_SESSION['idUser']))//juancito
-			{
-				echo "Error: ",$sentencia->error;
-				die("Error en la vinculación de datos");	
-			}
+		function report($q,...$data)
+		{
 
-			if($sentencia->execute())
-			{
-				return true;
-			}else{
-			}
+			$result=$this->prepQuery($q,...$data);
+			return $result;
 
 		}
 

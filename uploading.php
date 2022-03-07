@@ -45,7 +45,7 @@
 
 			if(move_uploaded_file($_FILES["avatar"]["tmp_name"], $newImage))
 			{
-				if($user->upFPerfil($newImage))
+				if($user->upFPerfil($newImage,$_SESSION["idUser"]))
 				{
 					header("Location:system.php");
 					die();
